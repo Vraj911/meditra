@@ -80,31 +80,33 @@ const AppointmentScheduler = () => {
     fetchDoctors();
   }, []);
   const fetchAppointments = async () => {
-    try {
-      const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/appointments`);
-      setAppointments(res.data.data || []);
-    } catch (err) {
-      console.error("Failed to fetch appointments", err);
-    }
-  };
+  try {
+    const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/appointments`);
+    setAppointments(res.data.data?.appointments || []); // <- fix
+  } catch (err) {
+    console.error("Failed to fetch appointments", err);
+  }
+};
+
+const fetchDoctors = async () => {
+  try {
+    const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/doctors`);
+    const doctorsWithIcons = (res.data.data?.doctors || []).map((doc: any) => ({
+      ...doc,
+      icon: getSpecialtyIcon(doc.specialty),
+    }));
+    setDoctors(doctorsWithIcons);
+  } catch (err) {
+    console.error("Failed to fetch doctors", err);
+  }
+};
+
   const fetchNotifications = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/notifications`);
       setNotifications(res.data.data || []);
     } catch (err) {
       console.error("Failed to fetch notifications", err);
-    }
-  };
-  const fetchDoctors = async () => {
-    try {
-      const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/doctors`);
-      const doctorsWithIcons = res.data.data.map((doc: any) => ({
-        ...doc,
-        icon: getSpecialtyIcon(doc.specialty),
-      }));
-      setDoctors(doctorsWithIcons);
-    } catch (err) {
-      console.error("Failed to fetch doctors", err);
     }
   };
   const getStatusColor = (status: string) => {

@@ -46,7 +46,7 @@ exports.getPlanItem = async (req, res) => {
   }
 };
 */
-const { dashboard } = require("../../dummy");
+const { dashboard } = require("../dummy");
 
 exports.getTodaysPlan = (req, res) => {
   res.status(200).json({ success: true, data: dashboard.plan });

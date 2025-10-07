@@ -36,7 +36,7 @@ exports.uploadReport = async (req, res) => {
   }
 };
 */
-const { dashboard } = require("../../dummy");
+const { dashboard } = require("../dummy");
 
 exports.getRecentReports = (req, res) => {
   res.status(200).json({ success: true, data: dashboard.reports });

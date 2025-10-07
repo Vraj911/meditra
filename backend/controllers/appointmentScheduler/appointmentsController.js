@@ -64,7 +64,7 @@ exports.deleteAppointment = async (req, res) => {
   }
 };
 */
-const { appointments } = require("../../dummy");
+const { appointments } = require("../dummy");
 exports.getAppointments = (req, res) => {
   res.status(200).json({ success: true, data: appointments });
 };

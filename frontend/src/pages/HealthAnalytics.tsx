@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,21 +10,17 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell
 } from "recharts";
-import { 
-  Heart, Moon, Activity, TrendingUp, TrendingDown,
-  Target, Zap, Thermometer, Brain, Calendar, Filter
-} from "lucide-react";
+import { TrendingUp, TrendingDown, Filter } from "lucide-react";
 
 const API_BASE = "http://localhost:3000/api/analytics";
 
 export default function HealthAnalytics() {
-  const [metrics, setMetrics] = useState([]);
-  const [metricHistory, setMetricHistory] = useState([]);
-  const [sleepData, setSleepData] = useState([]);
-  const [activityData, setActivityData] = useState<any>(null);
-  const [vitals, setVitals] = useState([]);
-  const [insights, setInsights] = useState([]);
-
+  const [metrics, setMetrics] = useState<any[]>([]);
+  const [metricHistory, setMetricHistory] = useState<any[]>([]);
+  const [sleepData, setSleepData] = useState<any[]>([]);
+  const [activityData, setActivityData] = useState<any>({});
+  const [vitals, setVitals] = useState<any[]>([]);
+  const [insights, setInsights] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,12 +42,13 @@ export default function HealthAnalytics() {
           axios.get(`${API_BASE}/insights`),
         ]);
 
+        // Set state based on backend data keys
         setMetrics(metricsRes.data.data || []);
         setMetricHistory(historyRes.data.data || []);
-        setSleepData(sleepRes.data.data || []);
-        setActivityData(activityRes.data.data || {});
-        setVitals(vitalsRes.data.data || []);
-        setInsights(insightsRes.data.data || []);
+        setSleepData(sleepRes.data.data || []); // analytics.sleep
+        setActivityData(activityRes.data.data || {}); // analytics.activityData
+        setVitals(vitalsRes.data.data || []); // analytics.vitals
+        setInsights(insightsRes.data.data || []); // analytics.insights
       } catch (error) {
         console.error("Error fetching analytics data:", error);
       } finally {
@@ -77,9 +73,9 @@ export default function HealthAnalytics() {
     <PageLayout title="Health Analytics Dashboard">
       <div className="flex justify-between mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">Health Analytics</h1>
-        <Button variant="outline">
+        <button className="flex items-center px-3 py-1 border rounded-md hover:bg-gray-100">
           <Filter className="w-4 h-4 mr-2" /> Filter Data
-        </Button>
+        </button>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
@@ -91,12 +87,12 @@ export default function HealthAnalytics() {
           <TabsTrigger value="insights">Insights</TabsTrigger>
         </TabsList>
 
-        {/* --- OVERVIEW TAB --- */}
+        {/* --- OVERVIEW --- */}
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {metrics.map((m, idx) => (
               <Card key={idx}>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardHeader className="flex justify-between items-center pb-2">
                   <CardTitle className="text-sm font-medium">{m.label}</CardTitle>
                   {m.trend === "up" ? (
                     <TrendingUp className="w-4 h-4 text-green-500" />
@@ -105,12 +101,9 @@ export default function HealthAnalytics() {
                   )}
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {m.value} {m.unit}
-                  </div>
+                  <div className="text-2xl font-bold">{m.value} {m.unit}</div>
                   <p className="text-xs text-muted-foreground">
-                    Target: {m.target} ({m.change > 0 ? "+" : ""}
-                    {m.change})
+                    Target: {m.target} ({m.change > 0 ? "+" : ""}{m.change})
                   </p>
                   <Progress value={(m.value / m.target) * 100} className="mt-2" />
                 </CardContent>
@@ -129,19 +122,14 @@ export default function HealthAnalytics() {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#eb4908ff"
-                    strokeWidth={2}
-                  />
+                  <Line type="monotone" dataKey="value" stroke="#eb4908ff" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* --- ACTIVITY TAB --- */}
+        {/* --- ACTIVITY --- */}
         <TabsContent value="activity" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
@@ -152,13 +140,12 @@ export default function HealthAnalytics() {
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
-                      data={activityData?.distribution}
+                      data={activityData.distribution || []}
                       dataKey="value"
                       nameKey="name"
                       outerRadius={100}
-                      fill="#8884d8"
                     >
-                      {activityData?.distribution.map((entry: any, index: number) => (
+                      {(activityData.distribution || []).map((entry: any, index: number) => (
                         <Cell key={index} fill={entry.color} />
                       ))}
                     </Pie>
@@ -174,7 +161,7 @@ export default function HealthAnalytics() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={activityData?.weekly}>
+                  <BarChart data={activityData.weekly || []}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="day" />
                     <YAxis />
@@ -187,7 +174,7 @@ export default function HealthAnalytics() {
           </div>
         </TabsContent>
 
-        {/* --- SLEEP TAB --- */}
+        {/* --- SLEEP --- */}
         <TabsContent value="sleep">
           <Card>
             <CardHeader>
@@ -195,24 +182,19 @@ export default function HealthAnalytics() {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={sleepData}>
+                <AreaChart data={sleepData || []}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
-                  <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#0ea5e9"
-                    fill="#bae6fd"
-                  />
+                  <Area type="monotone" dataKey="value" stroke="#0ea5e9" fill="#bae6fd" />
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* --- VITALS TAB --- */}
+        {/* --- VITALS --- */}
         <TabsContent value="vitals">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {vitals.map((v, idx) => (
@@ -221,13 +203,8 @@ export default function HealthAnalytics() {
                   <CardTitle>{v.metric}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">
-                    {v.value} {v.unit}
-                  </div>
-                  <Badge
-                    style={{ backgroundColor: v.color }}
-                    className="mt-2 text-white"
-                  >
+                  <div className="text-2xl font-bold">{v.value} {v.unit}</div>
+                  <Badge style={{ backgroundColor: v.color }} className="mt-2 text-white">
                     {v.status}
                   </Badge>
                 </CardContent>
@@ -236,14 +213,10 @@ export default function HealthAnalytics() {
           </div>
         </TabsContent>
 
-        {/* --- INSIGHTS TAB --- */}
+        {/* --- INSIGHTS --- */}
         <TabsContent value="insights" className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {insights.map((i, idx) => (
-            <Card
-              key={idx}
-              className="border-l-4"
-              style={{ borderLeftColor: i.color }}
-            >
+            <Card key={idx} className="border-l-4" style={{ borderLeftColor: i.color }}>
               <CardHeader>
                 <CardTitle>{i.title}</CardTitle>
               </CardHeader>

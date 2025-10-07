@@ -9,7 +9,7 @@
 };
 module.exports = { getVitals };
 */
-const { analytics } = require("../../dummy");
+const { analytics } = require("../dummy");
 exports.getVitals = (req, res) => {
   res.json({ success: true, data: analytics.vitalsData });
 };

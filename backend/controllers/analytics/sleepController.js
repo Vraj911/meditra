@@ -11,7 +11,7 @@
   res.json({ success: true, data: sleepData });
 };
 module.exports = { getSleepData };*/
-const { analytics } = require("../../dummy");
+const { analytics } = require("../dummy");
 
 exports.getSleepData = (req, res) => {
   res.json({ success: true, data: analytics.sleepData });

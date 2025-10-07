@@ -34,7 +34,7 @@
 };
 module.exports = { getWellnessData };
 */
-const { wellness } = require("../../dummy");
+const { wellness } = require("../dummy");
 
 exports.getWellnessData = (req, res) => {
   res.json(wellness);

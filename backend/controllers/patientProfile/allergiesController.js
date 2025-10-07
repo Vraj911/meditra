@@ -7,7 +7,7 @@
   }
 };
 */
-const { patient } = require("../../dummy");
+const { patient } = require("../dummy");
 
 exports.getAllergies = (req, res) => {
   res.status(200).json({ success: true, data: patient.allergies });

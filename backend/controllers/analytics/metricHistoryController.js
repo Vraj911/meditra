@@ -11,7 +11,7 @@
   res.json({ success: true, data: heartRateHistory });
 };
 module.exports = { getMetricHistory };*/
-const { analytics } = require("../../dummy");
+const { analytics } = require("../dummy");
 
 exports.getMetricHistory = (req, res) => {
   res.json({ success: true, data: analytics.metricHistory });

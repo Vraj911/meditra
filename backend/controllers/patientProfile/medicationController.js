@@ -11,7 +11,7 @@
   }
 };
 */
-const { patient } = require("../../dummy");
+const { patient } = require("../dummy");
 
 exports.getMedications = (req, res) => {
   try {

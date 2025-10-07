@@ -57,7 +57,7 @@ exports.markAsRead = async (req, res) => {
   }
 };
 */
-const { notifications } = require("../../dummy");
+const { notifications } = require("../dummy");
 exports.getNotifications = (req, res) => {
   res.status(200).json({ success: true, data: notifications });
 };

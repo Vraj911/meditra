@@ -52,7 +52,7 @@ const updateMedication = (req, res) => {
 
 module.exports = { getMedications, getAdherence, getBadges, addMedication, updateMedication };
 */
-const { medication } = require("../../dummy");
+const { medication } = require("../dummy");
 
 exports.getMedications = (req, res) => {
   res.json({ success: true, data: medication.medications });

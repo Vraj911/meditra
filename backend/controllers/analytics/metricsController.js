@@ -8,7 +8,7 @@
   res.json({ success: true, data: metrics });
 };
 module.exports = { getMetrics };*/
-const { analytics } = require("../../dummy");
+const { analytics } = require("../dummy");
 exports.getMetrics = (req, res) => {
   res.json({ success: true, data: analytics.metrics });
 };

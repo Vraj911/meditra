@@ -12,7 +12,7 @@
   }
 };
 */
-const { patient } = require("../../dummy");
+const { patient } = require("../dummy");
 
 exports.getHealthEvents = (req, res) => {
   res.status(200).json({ success: true, data: patient.healthEvents });

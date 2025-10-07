@@ -14,7 +14,16 @@ exports.getDoctors = async (req, res) => {
   }
 };
 */
-const { doctors } = require("../../dummy");
+// controllers/appointmentController.js
+const { appointments } = require("../dummy");
+
 exports.getDoctors = (req, res) => {
-  res.status(200).json({ success: true, data: doctors });
+  try {
+    res.status(200).json({
+      success: true,
+      data: { doctors: appointments.doctors }, // wrap inside data.doctors
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to fetch doctors" });
+  }
 };

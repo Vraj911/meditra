@@ -46,7 +46,7 @@ exports.getMetricsHistory = async (req, res) => {
   }
 };
 */
-const dashboard = require('../dummyData/dashboardData');
+const { dashboard } = require("../dummy");
 
 // Get current health metrics
 exports.getMetrics = async (req, res) => {
