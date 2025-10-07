@@ -1,4 +1,4 @@
- const getMetricHistory = (req, res) => {
+ /*const getMetricHistory = (req, res) => {
   const heartRateHistory = [
     { date: "Mon", value: 75 },
     { date: "Tue", value: 73 },
@@ -10,4 +10,9 @@
   ];
   res.json({ success: true, data: heartRateHistory });
 };
-module.exports = { getMetricHistory };
+module.exports = { getMetricHistory };*/
+const { analytics } = require("../../dummy");
+
+exports.getMetricHistory = (req, res) => {
+  res.json({ success: true, data: analytics.metricHistory });
+};

@@ -1,4 +1,4 @@
-let appointments = [
+/*let appointments = [
   {
     id: "1",
     date: "2025-10-15",
@@ -62,4 +62,21 @@ exports.deleteAppointment = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error deleting appointment" });
   }
+};
+*/
+const { appointments } = require("../../dummy");
+exports.getAppointments = (req, res) => {
+  res.status(200).json({ success: true, data: appointments });
+};
+exports.addAppointment = (req, res) => {
+  const newAppointment = { id: `${appointments.length + 1}`, ...req.body };
+  appointments.push(newAppointment);
+  res.status(201).json({ success: true, data: newAppointment });
+};
+exports.deleteAppointment = (req, res) => {
+  const { id } = req.params;
+  const index = appointments.findIndex(a => a.id === id);
+  if (index === -1) return res.status(404).json({ success: false, message: "Appointment not found" });
+  appointments.splice(index, 1);
+  res.status(200).json({ success: true, message: "Appointment deleted" });
 };

@@ -1,4 +1,4 @@
-const getInsights = (req, res) => {
+/*const getInsights = (req, res) => {
   const insights = [
     { title: "🎉 Great Progress!", description: "Your activity level has increased by 5% this week.", color: "green" },
     { title: "💤 Sleep Quality", description: "Your sleep duration is improving. Aim for 8 hours consistently.", color: "blue" },
@@ -8,3 +8,9 @@ const getInsights = (req, res) => {
   res.json({ success: true, data: insights });
 };
 module.exports = { getInsights };
+*/
+const { analytics } = require("../../dummy");
+
+exports.getInsights = (req, res) => {
+  res.json({ success: true, data: analytics.insights });
+};

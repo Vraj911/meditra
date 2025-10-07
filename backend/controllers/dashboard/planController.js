@@ -1,4 +1,4 @@
-exports.getTodaysPlan = async (req, res) => {
+/*exports.getTodaysPlan = async (req, res) => {
   try {
     const plan = [
       { id: 1, task: "Morning Walk", status: "pending" },
@@ -44,4 +44,31 @@ exports.getPlanItem = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching plan item" });
   }
+};
+*/
+const { dashboard } = require("../../dummy");
+
+exports.getTodaysPlan = (req, res) => {
+  res.status(200).json({ success: true, data: dashboard.plan });
+};
+
+exports.completePlanItem = (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({ success: true, message: `Plan item ${id} marked as complete` });
+};
+
+exports.createPlanItem = (req, res) => {
+  const { task } = req.body;
+  res.status(201).json({ success: true, message: "Plan item created", task });
+};
+
+exports.updatePlanItem = (req, res) => {
+  const { id } = req.params;
+  const { task, status } = req.body;
+  res.status(200).json({ success: true, message: `Plan item ${id} updated`, task, status });
+};
+
+exports.getPlanItem = (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({ success: true, data: { id, task: "Sample Plan Item", status: "pending" } });
 };

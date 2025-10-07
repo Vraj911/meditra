@@ -1,4 +1,4 @@
- const getMetrics = (req, res) => {
+ /*const getMetrics = (req, res) => {
   const metrics = [
     { label: "Heart Rate", value: 72, unit: "BPM", change: -2, trend: "down", target: 70 },
     { label: "Sleep Duration", value: 7.5, unit: "hrs", change: 0.5, trend: "up", target: 8 },
@@ -7,4 +7,8 @@
   ];
   res.json({ success: true, data: metrics });
 };
-module.exports = { getMetrics };
+module.exports = { getMetrics };*/
+const { analytics } = require("../../dummy");
+exports.getMetrics = (req, res) => {
+  res.json({ success: true, data: analytics.metrics });
+};

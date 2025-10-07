@@ -1,4 +1,4 @@
-let notifications = [
+/*let notifications = [
   {
     id: "1",
     title: "Appointment Reminder",
@@ -55,4 +55,16 @@ exports.markAsRead = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error marking notification as read" });
   }
+};
+*/
+const { notifications } = require("../../dummy");
+exports.getNotifications = (req, res) => {
+  res.status(200).json({ success: true, data: notifications });
+};
+exports.markAsRead = (req, res) => {
+  const { id } = req.params;
+  notifications.forEach(n => {
+    if (n.id === id) n.read = true;
+  });
+  res.status(200).json({ success: true, data: notifications });
 };

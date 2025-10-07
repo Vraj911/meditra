@@ -1,4 +1,4 @@
-exports.getLabReports = async (req, res) => {
+/*exports.getLabReports = async (req, res) => {
   try {
     const reports = [
       { id: "1", test: "Cholesterol", result: "190", unit: "mg/dL", status: "normal", date: "2024-01-15", reference: "< 200 mg/dL" },
@@ -10,4 +10,10 @@ exports.getLabReports = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching lab reports" });
   }
+};
+*/
+const { patient } = require("../../dummy");
+
+exports.getLabReports = (req, res) => {
+  res.status(200).json({ success: true, data: patient.labReports });
 };

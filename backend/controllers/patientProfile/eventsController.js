@@ -1,4 +1,4 @@
-exports.getHealthEvents = async (req, res) => {
+/*exports.getHealthEvents = async (req, res) => {
   try {
     const events = [
       { id: "1", date: "2024-01-20", type: "appointment", title: "Annual Physical Exam", description: "Complete health checkup with Dr. Bhatt", status: "completed" },
@@ -10,4 +10,10 @@ exports.getHealthEvents = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching health events" });
   }
+};
+*/
+const { patient } = require("../../dummy");
+
+exports.getHealthEvents = (req, res) => {
+  res.status(200).json({ success: true, data: patient.healthEvents });
 };

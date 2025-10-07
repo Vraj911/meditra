@@ -1,5 +1,4 @@
-// controllers/medication/medicationController.js
-
+/*
 const medications = [
   { id: "1", name: "Metformin", dosage: "500mg", frequency: "Twice daily", time: "8:00 AM", taken: true, category: "morning", instructions: "Take with breakfast" },
   { id: "2", name: "Metformin", dosage: "500mg", frequency: "Twice daily", time: "8:00 PM", taken: false, category: "evening", instructions: "Take with dinner" },
@@ -52,3 +51,31 @@ const updateMedication = (req, res) => {
 };
 
 module.exports = { getMedications, getAdherence, getBadges, addMedication, updateMedication };
+*/
+const { medication } = require("../../dummy");
+
+exports.getMedications = (req, res) => {
+  res.json({ success: true, data: medication.medications });
+};
+
+exports.getAdherence = (req, res) => {
+  res.json({ success: true, data: medication.adherence });
+};
+
+exports.getBadges = (req, res) => {
+  res.json({ success: true, data: medication.badges });
+};
+
+exports.addMedication = (req, res) => {
+  const newMed = req.body;
+  medication.medications.push(newMed);
+  res.json({ success: true, message: "Medication added successfully", data: newMed });
+};
+
+exports.updateMedication = (req, res) => {
+  const { id } = req.params;
+  const { taken } = req.body;
+  const med = medication.medications.find(m => m.id === id);
+  if (med) med.taken = taken;
+  res.json({ success: true, message: `Medication ${id} updated`, taken });
+};

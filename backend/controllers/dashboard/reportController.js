@@ -1,4 +1,4 @@
-exports.getRecentReports = async (req, res) => {
+/*exports.getRecentReports = async (req, res) => {
   try {
     const reports = [
       { id: 1, type: "Blood Test", date: "2025-09-30" },
@@ -34,4 +34,24 @@ exports.uploadReport = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error uploading report" });
   }
+};
+*/
+const { dashboard } = require("../../dummy");
+
+exports.getRecentReports = (req, res) => {
+  res.status(200).json({ success: true, data: dashboard.reports });
+};
+
+exports.getReportById = (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({ success: true, data: { id, type: "Blood Test", details: "Normal Range" } });
+};
+
+exports.downloadReport = (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({ success: true, message: `Report ${id} downloaded` });
+};
+
+exports.uploadReport = (req, res) => {
+  res.status(201).json({ success: true, message: "Report uploaded successfully" });
 };

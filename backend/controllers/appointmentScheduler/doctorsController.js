@@ -1,4 +1,4 @@
-const doctors = [
+/*const doctors = [
   { id: "1", name: "Dr. Bhatt", specialty: "Cardiology", availableSlots: ["9:00 AM","10:00 AM","11:30 AM"], icon: "Heart" },
   { id: "2", name: "Dr. riya", specialty: "Dermatology", availableSlots: ["2:00 PM","2:30 PM"], icon: "Eye" },
   { id: "3", name: "Dr. Nilesh", specialty: "General Practice", availableSlots: ["10:00 AM","10:30 AM"], icon: "Stethoscope" },
@@ -12,4 +12,9 @@ exports.getDoctors = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching doctors" });
   }
+};
+*/
+const { doctors } = require("../../dummy");
+exports.getDoctors = (req, res) => {
+  res.status(200).json({ success: true, data: doctors });
 };

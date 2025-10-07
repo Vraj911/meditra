@@ -1,4 +1,4 @@
-const getWellnessData = (req, res) => {
+/*const getWellnessData = (req, res) => {
   res.json({
     breathingExercises: [
       { id: "1", name: "4-4-6 Breathing", description: "Calm and relaxing breathing pattern", inhaleTime: 4, holdTime: 4, exhaleTime: 6, cycles: 5, color: "text-blue-600", icon: "Wind" },
@@ -33,3 +33,9 @@ const getWellnessData = (req, res) => {
   });
 };
 module.exports = { getWellnessData };
+*/
+const { wellness } = require("../../dummy");
+
+exports.getWellnessData = (req, res) => {
+  res.json(wellness);
+};

@@ -1,4 +1,4 @@
- const getSleepData = (req, res) => {
+ /*const getSleepData = (req, res) => {
   const sleepData = [
     { date: "Mon", value: 7.2 },
     { date: "Tue", value: 7.8 },
@@ -10,4 +10,9 @@
   ];
   res.json({ success: true, data: sleepData });
 };
-module.exports = { getSleepData };
+module.exports = { getSleepData };*/
+const { analytics } = require("../../dummy");
+
+exports.getSleepData = (req, res) => {
+  res.json({ success: true, data: analytics.sleepData });
+};

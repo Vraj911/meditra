@@ -1,4 +1,4 @@
-exports.getMetrics = async (req, res) => {
+/*exports.getMetrics = async (req, res) => {
   try {
     const metrics = {
       heartRate: 76,              // bpm
@@ -43,5 +43,47 @@ exports.getMetricsHistory = async (req, res) => {
   } catch (error) {
     console.error("Error in getMetricsHistory:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+*/
+const dashboard = require('../dummyData/dashboardData');
+
+// Get current health metrics
+exports.getMetrics = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: "Health metrics fetched successfully",
+      data: dashboard.metrics,
+    });
+  } catch (err) {
+    console.error("Error in getMetrics:", err);
+    res.status(500).json({ success: false, message: "Server error while fetching health metrics" });
+  }
+};
+
+// Get metrics history
+exports.getMetricsHistory = async (req, res) => {
+  try {
+    const { metric = "heartRate", range = "7days" } = req.query;
+    // Here we can filter based on metric if needed; currently returning full dummy history
+    res.status(200).json({
+      success: true,
+      message: `History for ${metric} over ${range}`,
+      data: dashboard.metricsHistory,
+    });
+  } catch (err) {
+    console.error("Error in getMetricsHistory:", err);
+    res.status(500).json({ success: false, message: "Server error while fetching metrics history" });
+  }
+};
+
+// Get reminders
+exports.getReminders = async (req, res) => {
+  try {
+    res.status(200).json({ success: true, data: dashboard.reminders });
+  } catch (err) {
+    console.error("Error in getReminders:", err);
+    res.status(500).json({ success: false, message: "Error fetching reminders" });
   }
 };
